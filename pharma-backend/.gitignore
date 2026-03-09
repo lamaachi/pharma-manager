@@ -1,0 +1,29 @@
+# Python
+# Virtual environment
+venv/
+.venv/
+env/
+.env/
+
+# Byte-code files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# IDEs
+.idea/                          # PyCharm
+.vscode/                        # VS Code (if you want to ignore workspace settings)
+*.swp
+*~
+.DS_Store                       # macOS system files
+
+# Logs
+*.log
+celerybeat.pid
+
+# Environment variables
+.env                            # Keep your .env file out of version control!
+*.env                           # Any other .env files

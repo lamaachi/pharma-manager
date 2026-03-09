@@ -1,0 +1,18 @@
+services:
+  pharma_db:
+    image: postgres:15-alpine # Using a lightweight Alpine-based PostgreSQL image
+    environment:
+      POSTGRES_DB: pharma_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data # Persist data so it's not lost when container stops
+    ports:
+      - "5432:5432" # Map container port 5432 to host port 5432
+    env_file:
+      - ./.env # This tells Docker Compose to load environment variables from your .env file
+    restart: unless-stopped # Always restart unless explicitly stopped
+
+
+volumes:
+  pgdata:
