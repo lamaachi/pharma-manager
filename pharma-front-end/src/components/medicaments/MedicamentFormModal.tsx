@@ -25,7 +25,7 @@ export const MedicamentFormModal = ({
   const [formData, setFormData] = useState<Partial<Medicament>>({
     nom: '',
     dci: '',
-    categorie: '',
+    categorie: undefined,
     forme: '',
     dosage: '',
     prix_achat: '',
@@ -45,7 +45,7 @@ export const MedicamentFormModal = ({
         });
       } else {
         setFormData({
-          nom: '', dci: '', categorie: '', forme: '', dosage: '',
+          nom: '', dci: '', categorie: undefined, forme: '', dosage: '',
           prix_achat: '', prix_vente: '', stock_actuel: 0, stock_minimum: 10,
           ordonnance_requise: false,
         });
@@ -56,7 +56,7 @@ export const MedicamentFormModal = ({
   const loadCategories = async () => {
     try {
       const data = await fetchCategories();
-      setCategories(data.results || []);
+      setCategories(data || []);
     } catch (error) {
       console.error('Failed to load categories', error);
     }
@@ -68,6 +68,9 @@ export const MedicamentFormModal = ({
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
+    } else if (name === 'categorie') {
+      const categoryId = value ? parseInt(value, 10) : undefined;
+      setFormData(prev => ({ ...prev, [name]: categoryId }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
@@ -103,7 +106,7 @@ export const MedicamentFormModal = ({
             <select
               name="categorie"
               required
-              value={formData.categorie as string | number}
+              value={(formData.categorie as number) || ''}
               onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >

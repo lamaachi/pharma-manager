@@ -22,14 +22,12 @@ export default function DashboardPage() {
         setIsLoading(true);
         // We'll run these queries concurrently
         const [medsRes, alertesRes, ventesRes] = await Promise.all([
-          fetchMedicaments({ limit: 1 }), // Just need the count
-          fetchAlertes({ limit: 5 }),     // Need count + top 5
-          fetchVentes({ 
-            // Simplified date filter for today (backend should handle exact date filtering)
-            // Or we could calculate CA over the whole dataset for MVP if API filtering isnt complete
-          })
+          fetchMedicaments({ page_size: 1 }), // Just need the count
+          fetchAlertes({ page_size: 5 }),     // Need count + top 5
+          fetchVentes({})
         ]);
-
+        console.log('Dashboard Data:', { medsRes, alertesRes, ventesRes });
+        
         setStats({
           totalMedicaments: medsRes.count || 0,
           alertesCount: alertesRes.count || 0,
@@ -45,7 +43,7 @@ export default function DashboardPage() {
         setIsLoading(false);
       }
     };
-
+    
     loadDashboardData();
   }, []);
 

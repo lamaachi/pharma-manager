@@ -13,7 +13,7 @@ export interface PaginatedResponse<T> {
   results: T[];
 }
 
-export const fetchCategories = async (params: Record<string, any> = {}): Promise<PaginatedResponse<Categorie>> => {
+export const fetchCategories = async (params: Record<string, any> = {}): Promise<Categorie[]> => {
   const response = await axiosInstance.get('/categories/', { params });
   return response.data;
 };

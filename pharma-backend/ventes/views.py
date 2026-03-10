@@ -15,7 +15,7 @@ class VenteViewSet(viewsets.ModelViewSet):
     serializer_class = VenteSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = {
-        'date_vente': ['gte', 'lte'],
+        'date_vente': ['exact', 'gte', 'lte'],
         'statut': ['exact'],
     }
     ordering_fields = ['date_vente', 'total_ttc']

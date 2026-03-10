@@ -199,14 +199,15 @@ export default function VentesPage() {
                     <td className="p-4 text-right font-medium">{formatCurrency(vente.total_ttc)}</td>
                     <td className="p-4 text-center">
                       <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-                        vente.statut === 'Complétée' ? 'bg-emerald-100 text-emerald-800' : 
-                        vente.statut === 'Annulée' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
+                        vente.statut === 'COMPLETÉE' ? 'bg-emerald-100 text-emerald-800' : 
+                        vente.statut === 'ANNULÉE' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
                       }`}>
-                        {vente.statut}
+                        {vente.statut === 'COMPLETÉE' ? 'Complétée' : 
+                         vente.statut === 'ANNULÉE' ? 'Annulée' : vente.statut}
                       </span>
                     </td>
                     <td className="p-4 text-right">
-                      {vente.statut === 'Complétée' && (
+                      {vente.statut === 'COMPLETÉE' && (
                         <button 
                           onClick={() => handleAnnulerVente(vente.id)}
                           className="text-sm font-medium hover:underline text-red-600"
