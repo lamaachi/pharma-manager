@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Pill, Plus, Search, Edit2, Trash2, AlertTriangle, FileText } from 'lucide-react';
-import { fetchMedicaments, Medicament, createMedicament, updateMedicament, deleteMedicament } from '../api/medicamentsApi';
+import { fetchMedicaments, createMedicament, updateMedicament, deleteMedicament } from '../api/medicamentsApi';
+import type { Medicament } from '../api/medicamentsApi';
 import { formatCurrency } from '../utils/formatters';
-import { Button } from '../common/Button';
-import { Input } from '../common/Input';
+import { Button } from '../components/common/Button';
+import { Input } from '../components/common/Input';
 import { MedicamentFormModal } from '../components/medicaments/MedicamentFormModal';
 
 export default function MedicamentsPage() {
@@ -151,12 +152,12 @@ export default function MedicamentsPage() {
                             }`}>
                               {med.stock_actuel}
                             </span>
-                            {isLowStock && <AlertTriangle size={16} className="text-red-500" title="Stock faible" />}
+                            {isLowStock && <span title="Stock faible"><AlertTriangle size={16} className="text-red-500" /></span>}
                         </div>
                       </td>
                       <td className="p-4 text-center">
                         {med.ordonnance_requise ? (
-                          <FileText size={18} className="text-amber-500 mx-auto" title="Ordonnance requise" />
+                          <span title="Ordonnance requise"><FileText size={18} className="text-amber-500 mx-auto" /></span>
                         ) : (
                           <span className="text-gray-300">-</span>
                         )}

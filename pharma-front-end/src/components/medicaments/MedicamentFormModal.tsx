@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Medicament } from '../../api/medicamentsApi';
-import { Categorie, fetchCategories } from '../../api/categoriesApi';
+import type { Medicament } from '../../api/medicamentsApi';
+import { fetchCategories } from '../../api/categoriesApi';
+import type { Categorie } from '../../api/categoriesApi';
 import { Modal } from '../common/Modal';
 import { Input } from '../common/Input';
 import { Button } from '../common/Button';

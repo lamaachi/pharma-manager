@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Receipt, Search, Plus, Trash2, Calendar } from 'lucide-react';
-import { fetchMedicaments, Medicament } from '../api/medicamentsApi';
-import { fetchVentes, createVente, annulerVente, Vente } from '../api/ventesApi';
+import { fetchMedicaments } from '../api/medicamentsApi';
+import type { Medicament } from '../api/medicamentsApi';
+import { fetchVentes, createVente, annulerVente } from '../api/ventesApi';
+import type { Vente } from '../api/ventesApi';
 import { formatCurrency, formatDate } from '../utils/formatters';
-import { Button } from '../common/Button';
-import { Input } from '../common/Input';
-import { Modal } from '../common/Modal';
+import { Button } from '../components/common/Button';
+import { Input } from '../components/common/Input';
+import { Modal } from '../components/common/Modal';
 
 export default function VentesPage() {
   const [ventes, setVentes] = useState<Vente[]>([]);

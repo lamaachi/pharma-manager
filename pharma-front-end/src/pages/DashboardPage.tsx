@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Pill, AlertTriangle, TrendingUp, Package } from 'lucide-react';
-import { fetchMedicaments, fetchAlertes, Medicament } from '../api/medicamentsApi';
+import { fetchMedicaments, fetchAlertes } from '../api/medicamentsApi';
+import type { Medicament } from '../api/medicamentsApi';
 import { fetchVentes } from '../api/ventesApi';
 import { formatCurrency } from '../utils/formatters';
 

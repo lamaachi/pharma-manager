@@ -1,5 +1,5 @@
 import axiosInstance from './axiosConfig';
-import { PaginatedResponse } from './categoriesApi';
+import type { PaginatedResponse } from './categoriesApi';
 
 export interface VenteLine {
   id?: number;

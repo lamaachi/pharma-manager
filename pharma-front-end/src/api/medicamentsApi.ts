@@ -1,5 +1,5 @@
 import axiosInstance from './axiosConfig';
-import { Categorie, PaginatedResponse } from './categoriesApi';
+import type { Categorie, PaginatedResponse } from './categoriesApi';
 
 export interface Medicament {
   id: number;
