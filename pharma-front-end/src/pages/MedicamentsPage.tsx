@@ -2,15 +2,19 @@ import { useState, useEffect } from 'react';
 import { Pill, Plus, Search, Edit2, Trash2, AlertTriangle, FileText } from 'lucide-react';
 import { fetchMedicaments, createMedicament, updateMedicament, deleteMedicament } from '../api/medicamentsApi';
 import type { Medicament } from '../api/medicamentsApi';
+import {fetchCategories} from "../api/categoriesApi"
 import { formatCurrency } from '../utils/formatters';
 import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
+import type { Categorie } from "../api/categoriesApi"
 import { MedicamentFormModal } from '../components/medicaments/MedicamentFormModal';
 
 export default function MedicamentsPage() {
   const [medicaments, setMedicaments] = useState<Medicament[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState<Categorie[]>([]);
   
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,8 +23,9 @@ export default function MedicamentsPage() {
   const loadMedicaments = async () => {
     setLoading(true);
     try {
-      // The API should handle searching via `search` param in real scenario
-      const data = await fetchMedicaments({ search: searchTerm });
+      const params: any = { search: searchTerm };
+      if (selectedCategory) params.categorie = selectedCategory;
+      const data = await fetchMedicaments(params);
       setMedicaments(data.results || []);
     } catch (error) {
       console.error("Failed to load medicaments", error);
@@ -29,6 +34,19 @@ export default function MedicamentsPage() {
     }
   };
 
+  const loadCategories = async () => {
+    try {
+      const data = await fetchCategories();
+      setCategories(data || []);
+    } catch (error) {
+      console.error("Failed to load categories", error);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
   // Debounced search effect
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -36,7 +54,7 @@ export default function MedicamentsPage() {
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
+  }, [searchTerm, selectedCategory]);
 
   const handleCreateOrUpdate = async (data: Partial<Medicament>) => {
     if (editingMed) {
@@ -96,9 +114,15 @@ export default function MedicamentsPage() {
           />
         </div>
         {/* Placeholder for Category Filter (Bonus feature) */}
-        <select className="border border-gray-300 rounded-lg px-4 bg-white text-gray-700 h-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+        <select 
+          className="border border-gray-300 rounded-lg px-4 bg-white text-gray-700 h-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
           <option value="">Toutes les catégories</option>
-          {/* We would load and map categories here */}
+          {categories.map(c => (
+            <option key={c.id} value={c.id}>{c.nom}</option>
+          ))}
         </select>
       </div>
 

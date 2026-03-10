@@ -1,6 +1,7 @@
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.db import models
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Medicament
 from .serializers import MedicamentSerializer, MedicamentListSerializer
@@ -28,14 +29,17 @@ class MedicamentViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def alertes(self, request):
-        # Using a raw DB filter where stock <= min stock for DB-level performance
-        alertes = self.get_queryset().filter(stock_actuel__lte=models.F('stock_minimum'))
+        """Retourne les médicaments avec un stock bas ou expiré."""
+        alertes = Medicament.objects.filter(
+            est_actif=True
+        ).filter(
+            models.Q(stock_actuel__lte=models.F('stock_minimum'))
+        )
+        
         page = self.paginate_queryset(alertes)
         if page is not None:
-            serializer = self.get_serializer(page, many=True)
+            serializer = MedicamentListSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)
-        
-        serializer = self.get_serializer(alertes, many=True)
-        return Response(serializer.data)
 
-from django.db import models
+        serializer = MedicamentListSerializer(alertes, many=True)
+        return Response(serializer.data)
