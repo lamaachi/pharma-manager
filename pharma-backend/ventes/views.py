@@ -3,11 +3,16 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db import transaction
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Vente
-from .serializers import VenteSerializer, VenteDetailSerializer
+from .models import Vente, LigneVente
+from .serializers import VenteSerializer, VenteDetailSerializer, LigneVenteSerializer
+
+class LigneVenteViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = LigneVente.objects.all()
+    serializer_class = LigneVenteSerializer
 
 class VenteViewSet(viewsets.ModelViewSet):
     queryset = Vente.objects.all()
+    serializer_class = VenteSerializer
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = {
         'date_vente': ['gte', 'lte'],

@@ -16,7 +16,7 @@ class VenteSerializer(serializers.ModelSerializer):
     lignes = LigneVenteSerializer(many=True)
     total_ttc = serializers.ReadOnlyField()
     reference = serializers.ReadOnlyField()
-
+        
     class Meta:
         model = Vente
         fields = ['id', 'reference', 'date_vente', 'total_ttc', 'statut', 'notes', 'lignes']
@@ -59,9 +59,9 @@ class VenteSerializer(serializers.ModelSerializer):
         vente.save()
         return vente
 
+class LigneVenteDetailSerializer(LigneVenteSerializer):
+    medicament = MedicamentSerializer(read_only=True)
+
 class VenteDetailSerializer(VenteSerializer):
     # For detailed view with medicament info
-    class LigneVenteDetailSerializer(LigneVenteSerializer):
-        medicament = MedicamentSerializer(read_only=True)
-    
     lignes = LigneVenteDetailSerializer(many=True, read_only=True)

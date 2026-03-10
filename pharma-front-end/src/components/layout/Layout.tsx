@@ -11,7 +11,7 @@ export default function Layout() {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50 text-gray-900">
+    <div className="flex h-screen w-screen bg-gray-50 text-gray-900">
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-gray-200 flex flex-col hidden md:flex">
         <div className="p-6 flex items-center gap-3 border-b border-gray-100">

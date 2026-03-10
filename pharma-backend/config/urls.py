@@ -21,10 +21,10 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-     # API endpoints for your apps
-    path('api/v1/medicaments/', include('medicaments.urls')),
-    path('api/v1/ventes/', include('ventes.urls')),
-    path('api/v1/categories/', include('categories.urls')),
+    # API endpoints for your apps
+    path('api/v1/', include('medicaments.urls')),
+    path('api/v1/', include('ventes.urls')),
+    path('api/v1/', include('categories.urls')),
 
     # Swagger Documentation URLs (from Page 13)
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
