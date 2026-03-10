@@ -1,10 +1,8 @@
 services:
   pharma_db:
     image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: pharma_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+    env_file:
+      - ./pharma-backend/.env
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -17,14 +15,10 @@ services:
       - ./pharma-backend:/app
     ports:
       - "8000:8000"
+    env_file:
+      - ./pharma-backend/.env
     environment:
-      - DEBUG=True
-      - SECRET_KEY=dev-secret-key-12345
-      - POSTGRES_DB=pharma_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
       - DB_HOST=pharma_db
-      - DB_PORT=5432
     depends_on:
       - pharma_db
     restart: unless-stopped
@@ -36,6 +30,6 @@ services:
     depends_on:
       - pharma_backend
     restart: unless-stopped
-    
+
 volumes:
   pgdata:
