@@ -1,6 +1,6 @@
 # PharmaManager 💊
 
-Application de gestion de pharmacie — Développé dans le cadre du test technique SMARTHOLOL.
+Application de gestion de pharmacie
 
 ## Stack Technique
 
