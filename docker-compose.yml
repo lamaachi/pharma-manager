@@ -1,18 +1,41 @@
 services:
   pharma_db:
-    image: postgres:15-alpine # Using a lightweight Alpine-based PostgreSQL image
+    image: postgres:15-alpine
     environment:
       POSTGRES_DB: pharma_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:
-      - pgdata:/var/lib/postgresql/data # Persist data so it's not lost when container stops
+      - pgdata:/var/lib/postgresql/data
     ports:
-      - "5432:5432" # Map container port 5432 to host port 5432
-    env_file:
-      - ./.env # This tells Docker Compose to load environment variables from your .env file
-    restart: unless-stopped # Always restart unless explicitly stopped
+      - "5432:5432"
+    restart: unless-stopped
 
+  pharma_backend:
+    build: ./pharma-backend
+    volumes:
+      - ./pharma-backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=dev-secret-key-12345
+      - POSTGRES_DB=pharma_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - DB_HOST=pharma_db
+      - DB_PORT=5432
+    depends_on:
+      - pharma_db
+    restart: unless-stopped
 
+  pharma_frontend:
+    build: ./pharma-front-end
+    ports:
+      - "3000:80"
+    depends_on:
+      - pharma_backend
+    restart: unless-stopped
+    
 volumes:
   pgdata:
